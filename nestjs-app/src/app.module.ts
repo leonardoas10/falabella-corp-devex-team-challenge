@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
+import { APP_PIPE } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
@@ -21,6 +22,15 @@ import { GifsModule } from './gifs/gifs.module';
     GifsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        whitelist: true, // Remove unspecified properties from input objects
+        transform: true, // Automatically transform incoming payloads to DTO instances
+      }),
+    },
+  ],
 })
 export class AppModule {}

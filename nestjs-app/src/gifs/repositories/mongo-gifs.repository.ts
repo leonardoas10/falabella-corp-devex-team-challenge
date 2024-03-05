@@ -13,11 +13,13 @@ import { generateSlug } from '../../utils/utils';
 @Injectable()
 export class MongoGifsRepository {
   private readonly s3: S3;
+  private readonly configService: ConfigService;
 
   constructor(
     @InjectModel('Gif') private readonly gifModel: Model<GifDocument>,
     configService: ConfigService,
   ) {
+    this.configService = configService;
     this.s3 = new S3({
       accessKeyId: configService.get('AWS_ACCESS_KEY_ID'),
       secretAccessKey: configService.get('AWS_SECRET_ACCESS_KEY'),
@@ -51,7 +53,7 @@ export class MongoGifsRepository {
     try {
       const slug = generateSlug(title);
       const uploadParams = {
-        Bucket: 'falabella-corp-challenge',
+        Bucket: this.configService.get('AWS_S3_BUCKET'),
         Key: `gifs/${uuidv4()}-${slug}.gif`, // Unique key for the file in S3
         Body: file.buffer, // Assuming 'file' is the file object uploaded
         ContentType: file.mimetype,
@@ -59,12 +61,16 @@ export class MongoGifsRepository {
 
       // Upload file to S3
       const uploadResult = await this.s3.upload(uploadParams).promise();
-      const url = uploadResult.Location;
-      console.log('url => ', url);
 
-      // Create GIF document in MongoDB
-      const newGif = await this.gifModel.create({ title, url, slug });
-      return newGif;
+      // Check if upload to S3 was successful
+      if (uploadResult && uploadResult.Location) {
+        const url = uploadResult.Location;
+
+        // Create GIF document in MongoDB
+        const newGif = await this.gifModel.create({ title, url, slug });
+        return newGif;
+      }
+      throw new Error('Upload to S3 failed');
     } catch (error) {
       throw new Error(`Unable to upload GIFs: ${error}`);
     }

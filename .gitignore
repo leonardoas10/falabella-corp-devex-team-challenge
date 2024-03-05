@@ -2,4 +2,4 @@
 .env.development
 node_modules
 gifs-seed.js
-nestjs-app-old
+make-gifs-seed.js
