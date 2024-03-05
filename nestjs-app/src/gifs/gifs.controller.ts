@@ -20,7 +20,7 @@ export class GifsController {
 
   @Get()
   async getGifs(@Query() query: GetGifsDto): Promise<GifDocument[]> {
-    const { page = 1, limit = 10, title = null } = query;
+    const { page = '1', limit = '10', title = null } = query;
     return this.gifsService.getGifs(title, +page, +limit);
   }
 

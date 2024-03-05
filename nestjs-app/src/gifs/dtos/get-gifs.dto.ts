@@ -6,10 +6,10 @@ export class GetGifsDto {
   title?: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   page?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   limit?: number;
 }
