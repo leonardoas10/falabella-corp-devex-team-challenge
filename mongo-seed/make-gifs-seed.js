@@ -1,7 +1,6 @@
 const fs = require('fs');
 
 async function fetchDataFromGiphy() {
-    // TODO eliminated apikey from history
     const apiKey = '';
     const limit = 10;
     const offset = 0;
