@@ -1,31 +1,23 @@
 import React from 'react';
-import { Grid } from '@mui/material';
-
-// import { AboutResume } from '../components/About/AboutResume';
-import { NotFound } from '../components/Layout/Navigation/NotFound';
-// import { Desktop, TabletAndBelow } from '../components/Layout/MediaQueries';
+import { Typography, Stack } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const NotFoundPage: React.FC = () => {
     return (
         <>
-            <NotFound />
-            {/* <Desktop> */}
-            {/* <Grid
-                    container
-                    rowSpacing={3}
-                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                >
-                    <Grid item xs={9}>
-                        <NotFound />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <AboutResume />
-                    </Grid>
-                </Grid> */}
-            {/* </Desktop> */}
-            {/* <TabletAndBelow>
-                <NotFound />
-            </TabletAndBelow> */}
+            <Stack
+                spacing={2}
+                alignItems="center"
+                justifyContent="center"
+                style={{ height: '100vh' }}
+            >
+                <Typography align="center" color="black" variant="h3">
+                    Hey where are you going? 🤔 this page doesn't exist
+                </Typography>
+                <Typography align="center" color="black" variant="h4">
+                    Return to <Link to="/">Home</Link>
+                </Typography>
+            </Stack>
         </>
     );
 };

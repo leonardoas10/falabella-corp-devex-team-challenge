@@ -1,14 +1,9 @@
-import React, { useContext, memo, useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import { Stack, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { NavigationButton } from './NavigationButton';
 import { navigationLists } from '../../../utils/NavigationLists';
-// import { SwitchThemeColorMode } from '../Config/SwitchThemeColorMode';
-// import { SwitchLanguage } from '../Config/SwitchLanguage';
-// import { AccountCircleIcon } from '../../Auth/AccountCircleIcon';
-// import { LayoutConfigContext } from '../../../contexts/LayoutConfigContext';
-// import { Desktop } from '../MediaQueries';
 
 type TProps = {
     direction: 'column' | 'row';
@@ -67,13 +62,6 @@ export const NavigationItems: React.FC<TProps> = memo((props) => {
             >
                 {navigationItems}
             </Stack>
-            {/* <Stack direction={props.direction} spacing={2} alignItems="center">
-                <Desktop>
-                    <SwitchThemeColorMode />
-                    <SwitchLanguage />
-                </Desktop>
-                <AccountCircleIcon />
-            </Stack> */}
         </>
     );
 });

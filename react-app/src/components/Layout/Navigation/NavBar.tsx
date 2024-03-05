@@ -1,39 +1,17 @@
-import React, { useState, useCallback } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Toolbar, Drawer, Typography, Stack } from '@mui/material';
+import React from 'react';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 
-// import { Desktop, TabletAndBelow } from '../MediaQueries';
 import { NavigationItems } from './NavigationItems';
-// import { SwitchThemeColorMode } from '../Config/SwitchThemeColorMode';
-// import { SwitchLanguage } from '../Config/SwitchLanguage';
 
 const NavBar: React.FC = () => {
-    // const [drawer, setDrawer] = useState(false);
-
-    // const toggleDrawer = useCallback(() => {
-    //     setDrawer(!drawer);
-    // }, [drawer]);
-
     return (
-        <AppBar position="static">
+        <AppBar position="static" color="success">
             <Toolbar>
-                {/* <TabletAndBelow>
-                    <Drawer open={drawer} onClose={toggleDrawer}>
-                        <NavigationItems direction="column" />
-                    </Drawer>
-                    <MenuIcon onClick={toggleDrawer} sx={{ mr: 3 }} />
-
-                    <Stack sx={{ flexGrow: '1' }}>
-                        <Typography align="center" color="text.primary">
-                            Leonardo A.S.
-                        </Typography>
-                    </Stack>
-
-                    <SwitchThemeColorMode />
-                    <SwitchLanguage />
-                </TabletAndBelow> */}
-
                 <NavigationItems direction="row" />
+                <Typography align="center" color="white">
+                    Gifs App builded by Leonardo Aranguren | Falabella Corp
+                    DevEX Team - Falabella Marketplace
+                </Typography>
             </Toolbar>
         </AppBar>
     );
