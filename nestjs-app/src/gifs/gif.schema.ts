@@ -16,7 +16,7 @@ export const GifSchema = new mongoose.Schema({
   source_tld: String,
   source_post_url: String,
   update_datetime: String,
-  create_datetime: String,
+  create_datetime: { type: Date, default: Date.now },
   import_datetime: String,
   trending_datetime: String,
   images: { type: mongoose.Schema.Types.Mixed },
@@ -26,24 +26,24 @@ export const GifSchema = new mongoose.Schema({
 
 export interface GifDocument extends mongoose.Document {
   type: string;
-  id: string;
   slug: string;
   url: string;
-  bitly_url: string;
-  embed_url: string;
+  title: string;
+  id?: string;
+  bitly_url?: string;
+  embed_url?: string;
   username?: string;
   source?: string;
-  rating: string;
+  rating?: string;
   content_url?: string;
   user?: mongoose.Types.ObjectId;
   source_tld?: string;
   source_post_url?: string;
-  update_datetime: string;
-  create_datetime: string;
-  import_datetime: string;
+  update_datetime?: string;
+  create_datetime?: string;
+  import_datetime?: string;
   trending_datetime?: string;
-  images: any;
-  title: string;
+  images?: any;
   alt_text?: string;
 }
 
