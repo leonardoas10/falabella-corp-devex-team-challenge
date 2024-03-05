@@ -1,7 +1,8 @@
 const fs = require('fs');
 
 async function fetchDataFromGiphy() {
-    const apiKey = 'brKAj1aRzMhKSeiJrh3fvZnoq8ti3IcR';
+    // TODO eliminated apikey from history
+    const apiKey = '';
     const limit = 10;
     const offset = 0;
     const url = `https://api.giphy.com/v1/gifs/trending?api_key=${apiKey}&limit=${limit}&offset=${offset}`;

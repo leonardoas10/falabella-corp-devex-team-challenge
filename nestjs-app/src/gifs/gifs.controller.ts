@@ -10,7 +10,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GifsService } from './gifs.service';
 import { GifDocument } from './gif.schema';
-
+// TODO create Middleware for upload file
 @Controller('gifs')
 export class GifsController {
   constructor(private readonly gifsService: GifsService) {}
