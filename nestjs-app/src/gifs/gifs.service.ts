@@ -1,35 +1,21 @@
 // gifs.service.ts
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { GifDocument } from './gif.schema';
+import { MongoGifsRepository } from './repositories/mongo-gifs.repository';
 
 @Injectable()
 export class GifsService {
-  constructor(
-    @InjectModel('Gif') private readonly gifModel: Model<GifDocument>,
-  ) {}
+  constructor(private readonly mongoGifsRepository: MongoGifsRepository) {}
 
   async getGifs(
     title: string,
     page: number,
     limit: number,
   ): Promise<GifDocument[]> {
-    try {
-      let query = this.gifModel.find();
+    return this.mongoGifsRepository.getGifs(title, page, limit);
+  }
 
-      if (title) {
-        // If title is provided, filter GIFs by title matching any part of the provided string
-        query = query.where('title').regex(new RegExp(title, 'i'));
-      }
-
-      const gifs = await query
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .exec();
-      return gifs;
-    } catch (error) {
-      throw new Error(`Unable to fetch GIFs: ${error}`);
-    }
+  async uploadGif(file: File, title: string): Promise<GifDocument> {
+    return this.mongoGifsRepository.uploadGif(file, title);
   }
 }

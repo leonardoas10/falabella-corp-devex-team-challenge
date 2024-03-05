@@ -1,14 +1,14 @@
+// gifs.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { GifsController } from './gifs.controller';
 import { GifsService } from './gifs.service';
-import { GifSchema, GifModel } from './gif.schema'; // Import the schema and model
+import { GifSchema } from './gif.schema';
+import { MongoGifsRepository } from './repositories/mongo-gifs.repository';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: 'Gif', schema: GifSchema }]), // Register the schema with Mongoose
-  ],
+  imports: [MongooseModule.forFeature([{ name: 'Gif', schema: GifSchema }])],
   controllers: [GifsController],
-  providers: [GifsService, GifModel], // Provide the GifModel along with the service
+  providers: [GifsService, MongoGifsRepository],
 })
 export class GifsModule {}
