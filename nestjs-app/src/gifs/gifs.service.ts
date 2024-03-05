@@ -12,7 +12,7 @@ export class GifsService {
     title: string,
     page: number,
     limit: number,
-  ): Promise<GifDocument[]> {
+  ): Promise<{ gifs: GifDocument[]; totalCount: number }> {
     return this.mongoGifsRepository.getGifs(title, page, limit);
   }
 

@@ -11,7 +11,8 @@ import { GifContext } from '../contexts/GifContext';
 import { Spinner } from '../components/Layout/Spinner';
 
 const Gif: React.FC = () => {
-    const { handlerGetGifs, gifs, handlerCreateGif } = useContext(GifContext);
+    const { handlerGetGifs, gifs, handlerCreateGif, totalGifs } =
+        useContext(GifContext);
     const [page, setPage] = useState<number>(1);
     const [filter, setFilter] = useState<string>('');
     const [title, setTitle] = useState<string>('');
@@ -27,7 +28,9 @@ const Gif: React.FC = () => {
     };
 
     const handleNextPage = () => {
-        setPage(page + 1);
+        if (gifs.length >= gifsPerPage) {
+            setPage(page + 1);
+        }
     };
 
     const handlePrevPage = () => {
@@ -89,7 +92,10 @@ const Gif: React.FC = () => {
                             Previous Page
                         </Button>
                         <Button
-                            disabled={gifs.length < gifsPerPage}
+                            disabled={
+                                gifs.length < gifsPerPage ||
+                                page >= Math.ceil(totalGifs / gifsPerPage)
+                            }
                             onClick={handleNextPage}
                             variant="contained"
                             color="success"
@@ -151,4 +157,3 @@ const Gif: React.FC = () => {
 };
 
 export default Gif;
-// TODO and upload input

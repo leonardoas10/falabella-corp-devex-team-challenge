@@ -31,19 +31,21 @@ export class MongoGifsRepository {
     title: string,
     page: number,
     limit: number,
-  ): Promise<GifDocument[]> {
+  ): Promise<{ gifs: GifDocument[]; totalCount: number }> {
     try {
       let query = this.gifModel.find();
+      const totalCount = await this.gifModel.countDocuments();
 
       if (title) {
         query = query.where('title').regex(new RegExp(title, 'i'));
       }
 
       const gifs = await query
+        .sort({ _id: -1 })
         .skip((page - 1) * limit)
         .limit(limit)
         .exec();
-      return gifs;
+      return { gifs, totalCount };
     } catch (error) {
       throw new Error(`Unable to fetch GIFs: ${error}`);
     }

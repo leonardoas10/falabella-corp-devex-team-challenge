@@ -19,9 +19,11 @@ export class GifsController {
   constructor(private readonly gifsService: GifsService) {}
 
   @Get()
-  async getGifs(@Query() query: GetGifsDto): Promise<GifDocument[]> {
+  async getGifs(
+    @Query() query: GetGifsDto,
+  ): Promise<{ gifs: GifDocument[]; totalCount: number }> {
     const { page = '1', limit = '10', title = null } = query;
-    return this.gifsService.getGifs(title, +page, +limit);
+    return await this.gifsService.getGifs(title, +page, +limit);
   }
 
   @Post('upload')
@@ -34,6 +36,6 @@ export class GifsController {
     if (!file || file.mimetype !== 'image/gif') {
       throw new BadRequestException('Uploaded file must be in GIF format');
     }
-    return this.gifsService.uploadGif(file, uploadGifDto.title);
+    return await this.gifsService.uploadGif(file, uploadGifDto.title);
   }
 }

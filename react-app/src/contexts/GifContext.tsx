@@ -7,6 +7,7 @@ import { TGif } from '../types/gifs';
 
 type TGifContext = {
     gifs: Array<TGif>;
+    totalGifs: number;
     toastrNotify: (message: string, type: TypeOptions) => void;
     handlerCreateGif: (title: string, file: File) => Promise<void>;
     handlerGetGifs: (
@@ -23,12 +24,14 @@ type TProps = {
 export const GifContext = React.createContext<TGifContext>({
     toastrNotify: (message: string, type: TypeOptions) => {},
     gifs: [{} as TGif],
+    totalGifs: 0,
     handlerGetGifs: async (title?: string, page?: number, limit?: number) => {},
     handlerCreateGif: async (title: string, file: File) => {},
 });
 
 export const GifContextProvider: React.FC<TProps> = (props) => {
     const [gifs, setGifs] = useState<Array<TGif>>([]);
+    const [totalGifs, setTotalGifs] = useState<number>(0);
 
     const toastrNotify = (message: string, type: TypeOptions) => {
         try {
@@ -44,6 +47,7 @@ export const GifContextProvider: React.FC<TProps> = (props) => {
         formData.append('file', file);
 
         try {
+            toastrNotify('Uploading gif...', 'warning');
             const { data } = await axios.post(
                 `${process.env.REACT_APP_API_URL}gifs/upload`,
                 formData,
@@ -54,8 +58,10 @@ export const GifContextProvider: React.FC<TProps> = (props) => {
                 }
             );
 
-            setGifs([...gifs, data]);
+            setGifs([data, ...gifs.slice(0, -1)]);
+            toastrNotify('Uploaded gif', 'success');
         } catch (error) {
+            toastrNotify('Oh.. an error for uploading your file', 'error');
             CatchErrors(error, 'handlerCreateGif');
         }
     };
@@ -76,10 +82,10 @@ export const GifContextProvider: React.FC<TProps> = (props) => {
                 // Remove the trailing '&' if it exists
                 url = url.slice(0, -1);
             }
-            console.log('url => ', url);
 
             const { data } = await axios.get(url);
-            setGifs(data);
+            setGifs(data.gifs);
+            setTotalGifs(data.totalCount);
         } catch (error) {
             CatchErrors(error, 'handlerGetGifs');
         }
@@ -90,6 +96,7 @@ export const GifContextProvider: React.FC<TProps> = (props) => {
         handlerCreateGif,
         handlerGetGifs,
         gifs,
+        totalGifs,
     };
 
     return (
