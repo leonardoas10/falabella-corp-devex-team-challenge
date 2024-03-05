@@ -1,62 +1,65 @@
 version: '3'
 
 services:
-    # react-app:
-    #     container_name: react-app
-    #     build: ./react-app
-    #     volumes:
-    #         - './react-app:/app'
-    #         - /app/node_modules
-    #     env_file: .env
-    #     environment:
-    #         - PUBLIC_URL=$PUBLIC_URL
-    #     ports:
-    #         - '3000:3000'
-    #     networks:
-    #         - app-network
-    #     healthcheck:
-    #         test: ['CMD-SHELL', 'curl -f http://localhost:3000 || exit 1']
-    #         interval: 5s
-    #         timeout: 5s
-    #         retries: 3
-    #         start_period: 20s
-
-    nestjs-app:
-        container_name: nestjs-app
-        build: ./nestjs-app
-        ports:
-            - '8080:8080'
+    react-app:
+        container_name: react-app
+        build: ./react-app
         volumes:
-            - './nestjs-app:/app'
-            - /app/node_modulesY
+            - './react-app:/app'
+            - /app/node_modules
+        env_file: .env
+        environment:
+            - PUBLIC_URL=$PUBLIC_URL
+        ports:
+            - '3000:3000'
+        networks:
+            - app-network
+        # depends_on:
+        #     - mongo-db
+        #     - nestjs-app
         healthcheck:
-            test:
-                ['CMD-SHELL', 'curl -f http://localhost:8080/health || exit 1']
+            test: ['CMD-SHELL', 'curl -f http://localhost:3000 || exit 1']
             interval: 5s
             timeout: 5s
             retries: 3
             start_period: 20s
-        depends_on:
-            - mongo-db
-        networks:
-            - app-network
 
-    mongo-db:
-        image: mongo:4.1.8-xenial
-        container_name: mongo-db
-        restart: unless-stopped
-        ports:
-            - 27017:27017
-        env_file: .env
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
-            - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
-            - MONGO_INITDB_DATABASE=$MONGO_DB
-        volumes:
-            - falabella-corp-data:/data/db
-            - ./mongo-seed/init.js:/docker-entrypoint-initdb.d/init.js:ro
-        networks:
-            - app-network
+    # nestjs-app:
+    #     container_name: nestjs-app
+    #     build: ./nestjs-app
+    #     ports:
+    #         - '8080:8080'
+    #     volumes:
+    #         - './nestjs-app:/app'
+    #         - /app/node_modulesY
+    #     healthcheck:
+    #         test:
+    #             ['CMD-SHELL', 'curl -f http://localhost:8080/health || exit 1']
+    #         interval: 5s
+    #         timeout: 5s
+    #         retries: 3
+    #         start_period: 20s
+    #     depends_on:
+    #         - mongo-db
+    #     networks:
+    #         - app-network
+
+    # mongo-db:
+    #     image: mongo:4.1.8-xenial
+    #     container_name: mongo-db
+    #     restart: unless-stopped
+    #     ports:
+    #         - 27017:27017
+    #     env_file: .env
+    #     environment:
+    #         - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+    #         - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    #         - MONGO_INITDB_DATABASE=$MONGO_DB
+    #     volumes:
+    #         - falabella-corp-data:/data/db
+    #         - ./mongo-seed/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    #     networks:
+    #         - app-network
 networks:
     app-network:
         driver: bridge
