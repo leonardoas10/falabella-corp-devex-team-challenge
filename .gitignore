@@ -1,0 +1,4 @@
+.env
+node_modules
+gifs-seed.js
+nestjs-app-old
