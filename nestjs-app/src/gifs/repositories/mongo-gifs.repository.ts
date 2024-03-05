@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Express } from 'express';
 
 import { GifDocument } from '../gif.schema';
-import { generateSlug } from '../../utils/utils';
+import { generateSlug } from '../../utils';
 
 @Injectable()
 export class MongoGifsRepository {
